@@ -696,6 +696,7 @@ class PromptInterface(object):
                 print(
                     "\n-------------------------------------------------------------------------------------------------------------------------------------")
                 print("Test invoke successful")
+<<<<<<< HEAD
                 print("Total operations: %s " % num_ops)
                 print("Results:")
                 print("\t(Raw) %s" % [str(item) for item in results])
@@ -705,6 +706,14 @@ class PromptInterface(object):
                 print("Invoke TX gas cost: %s " % (tx.Gas.value / Fixed8.D))
                 print("Invoke TX Fee: %s " % (fee.value / Fixed8.D))
                 print("-------------------------------------------------------------------------------------------------------------------------------------\n")
+=======
+                print("Total operations: %s" % num_ops)
+                print("Results %s" % [str(item) for item in results])
+                print("Invoke TX GAS cost: %s" % (tx.Gas.value / Fixed8.D))
+                print("Invoke TX fee: %s" % (fee.value / Fixed8.D))
+                print(
+                    "-------------------------------------------------------------------------------------------------------------------------------------\n")
+>>>>>>> c79505eb45de3ed9dad33631b84042288a497bcd
                 print("Enter your password to continue and invoke on the network\n")
 
                 passwd = prompt("[password]> ", is_password=True)
