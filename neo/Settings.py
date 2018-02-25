@@ -29,6 +29,7 @@ FILENAME_PREFERENCES = os.path.join(DIR_PROJECT_ROOT, 'preferences.json')
 FILENAME_SETTINGS_MAINNET = os.path.join(DIR_PROJECT_ROOT, 'protocol.mainnet.json')
 FILENAME_SETTINGS_TESTNET = os.path.join(DIR_PROJECT_ROOT, 'protocol.testnet.json')
 FILENAME_SETTINGS_PRIVNET = os.path.join(DIR_PROJECT_ROOT, 'protocol.privnet.json')
+FILENAME_SETTINGS_COZNET = os.path.join(DIR_PROJECT_ROOT, 'protocol.coz.json')
 
 
 class SettingsHolder:
@@ -55,6 +56,7 @@ class SettingsHolder:
     WS_PORT = None
     URI_PREFIX = None
     BOOTSTRAP_FILE = None
+    NOTIF_BOOTSTRAP_FILE = None
 
     ALL_FEES = None
     USE_DEBUG_STORAGE = False
@@ -62,7 +64,7 @@ class SettingsHolder:
     VERSION_NAME = "/NEO-PYTHON:%s/" % __version__
 
     # Logging settings
-    log_smart_contract_events = True
+    log_smart_contract_events = False
 
     # Helpers
     @property
@@ -76,6 +78,11 @@ class SettingsHolder:
         return self.NODE_PORT == 20333 and self.MAGIC == 1953787457
 
     @property
+    def is_coznet(self):
+        """ Returns True if settings point to CoZnet """
+        return self.NODE_PORT == 20333 and self.MAGIC == 1010102
+
+    @property
     def net_name(self):
         if self.MAGIC is None:
             return 'None'
@@ -83,6 +90,8 @@ class SettingsHolder:
             return 'MainNet'
         if self.is_testnet:
             return 'TestNet'
+        if self.is_coznet:
+            return 'CozNet'
         return 'PrivateNet'
 
     # Setup methods
@@ -113,6 +122,7 @@ class SettingsHolder:
         self.URI_PREFIX = config['UriPrefix']
 
         self.BOOTSTRAP_FILE = config['BootstrapFile']
+        self.NOTIF_BOOTSTRAP_FILE = config['NotificationBootstrapFile']
 
         Helper.ADDRESS_VERSION = self.ADDRESS_VERSION
 
@@ -133,6 +143,10 @@ class SettingsHolder:
     def setup_privnet(self):
         """ Load settings from the privnet JSON config file """
         self.setup(FILENAME_SETTINGS_PRIVNET)
+
+    def setup_coznet(self):
+        """ Load settings from the coznet JSON config file """
+        self.setup(FILENAME_SETTINGS_COZNET)
 
     def set_log_smart_contract_events(self, is_enabled=True):
         self.log_smart_contract_events = is_enabled

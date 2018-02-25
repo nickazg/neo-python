@@ -93,7 +93,7 @@ class ExecutionEngine():
 
     def ResultsForCode(self, contract):
         try:
-            return_type = contract.ReturnType
+            return_type = ContractParameterType(contract.ReturnType)
 
             item = self.EvaluationStack.Items[0]
             if return_type == ContractParameterType.Integer:
@@ -142,7 +142,7 @@ class ExecutionEngine():
                        PUSH9, PUSH10, PUSH11, PUSH12, PUSH13, PUSH14, PUSH15, PUSH16]
 
             if opcode == PUSH0:
-                estack.PushT(bytearray([0]))
+                estack.PushT(bytearray(0))
 
             elif opcode == PUSHDATA1:
                 lenngth = context.OpReader.ReadByte()
@@ -598,8 +598,7 @@ class ExecutionEngine():
 
                 except Exception as e:
                     estack.PushT(False)
-                    traceback.print_stack()
-                    traceback.print_exc()
+                    logger.error("Could not checksig: %s " % e)
 
             elif opcode == CHECKMULTISIG:
 
